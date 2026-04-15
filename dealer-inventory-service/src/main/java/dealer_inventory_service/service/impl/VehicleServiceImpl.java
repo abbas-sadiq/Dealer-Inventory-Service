@@ -4,6 +4,7 @@ import dealer_inventory_service.dto.VehicleRequest;
 import dealer_inventory_service.dto.VehicleResponse;
 import dealer_inventory_service.enums.ErrorCode;
 import dealer_inventory_service.enums.SubscriptionType;
+import dealer_inventory_service.enums.VehicleStatus;
 import dealer_inventory_service.exceptions.ApplicationException;
 import dealer_inventory_service.model.Vehicle;
 import dealer_inventory_service.repository.VehicleRepository;
@@ -30,7 +31,7 @@ public class VehicleServiceImpl
                 .dealerId(request.dealerId())
                 .model(request.model())
                 .price(request.price())
-                .status(request.status())
+                .status(VehicleStatus.PENDING)
                 .tenantId(TenantContext.getTenant())
                 .build();
 
@@ -126,5 +127,20 @@ public class VehicleServiceImpl
                 vehicle.getPrice(),
                 vehicle.getStatus()
         );
+    }
+    public VehicleResponse markAsSold(UUID id) {
+
+        Vehicle vehicle = repository
+                .findByIdAndTenantId(
+                        id,
+                        TenantContext.getTenant()
+                )
+                .orElseThrow(() ->
+                        new ApplicationException(
+                                ErrorCode.RESOURCE_NOT_FOUND));
+
+        vehicle.setStatus(VehicleStatus.SOLD);
+
+        return map(repository.save(vehicle));
     }
 }

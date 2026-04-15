@@ -25,6 +25,7 @@ public interface VehicleService {
     VehicleResponse updateVehicle(
             UUID id,
             VehicleRequest request);
+    VehicleResponse markAsSold(UUID id);
 
     void deleteVehicle(UUID id);
 }

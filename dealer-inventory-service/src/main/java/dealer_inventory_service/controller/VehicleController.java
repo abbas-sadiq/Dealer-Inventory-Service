@@ -75,6 +75,17 @@ public class VehicleController {
                         .build()
         );
     }
+    @PatchMapping("/{id}/sold")
+    public ResponseEntity<ApiResponse<VehicleResponse>>
+    markAsSold(@PathVariable UUID id) {
+
+        return ResponseEntity.ok(
+                ApiResponse.<VehicleResponse>builder()
+                        .success(true)
+                        .data(service.markAsSold(id))
+                        .build()
+        );
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> delete(
