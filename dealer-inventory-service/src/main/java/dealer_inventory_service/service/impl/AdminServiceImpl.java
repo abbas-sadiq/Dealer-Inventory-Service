@@ -2,6 +2,7 @@ package dealer_inventory_service.service.impl;
 
 import dealer_inventory_service.dto.VehicleResponse;
 import dealer_inventory_service.enums.ErrorCode;
+import dealer_inventory_service.enums.SubscriptionType;
 import dealer_inventory_service.enums.VehicleStatus;
 import dealer_inventory_service.exceptions.ApplicationException;
 import dealer_inventory_service.model.Vehicle;
@@ -22,25 +23,26 @@ public class AdminServiceImpl
     private final VehicleRepository vehicleRepository;
 
     @Override
-    public Map<String, Long>
+    public Map<SubscriptionType, Long>
     countDealersBySubscription() {
 
         List<Object[]> results =
                 repository.countBySubscription();
 
-        Map<String, Long> response =
+        Map<SubscriptionType, Long> response =
                 new HashMap<>();
 
         for (Object[] row : results) {
 
             response.put(
-                    row[0].toString(),
+                    (SubscriptionType) row[0],
                     (Long) row[1]
             );
         }
 
         return response;
     }
+
     @Override
     public VehicleResponse approveVehicle(UUID id){
         Vehicle vehicle = vehicleRepository

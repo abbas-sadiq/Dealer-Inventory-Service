@@ -31,12 +31,13 @@ public interface VehicleRepository
     );
 
     @Query("""
-            SELECT v
-            FROM Vehicle v
-            JOIN v.dealer d
-            WHERE v.tenantId = :tenantId
-            AND d.subscriptionType = :subscription
-            """)
+        SELECT v
+        FROM Vehicle v
+        JOIN Dealer d
+        ON v.dealerId = d.id
+        WHERE v.tenantId = :tenantId
+        AND d.subscriptionType = :subscription
+        """)
     Page<Vehicle> findBySubscription(
             @Param("tenantId") String tenantId,
             @Param("subscription") SubscriptionType subscription,
