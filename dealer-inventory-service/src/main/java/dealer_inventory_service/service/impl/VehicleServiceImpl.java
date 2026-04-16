@@ -31,7 +31,7 @@ public class VehicleServiceImpl
                 .dealerId(request.dealerId())
                 .model(request.model())
                 .price(request.price())
-                .status(request.status())
+                .status(VehicleStatus.PENDING)
                 .tenantId(TenantContext.getTenant())
                 .build();
 
